@@ -13,7 +13,7 @@ import {
     SelectNative,
     DateOfBirthPicker,
 } from '@deriv/components';
-import { toMoment, isMobile } from '@deriv/shared';
+import { toMoment, isMobile, getLocation } from '@deriv/shared';
 import { localize } from '@deriv/translations';
 import { WS } from 'Services/ws-methods';
 import { connect } from 'Stores/connect';
@@ -33,15 +33,6 @@ import FormBody from 'Components/form-body';
 import FormSubHeader from 'Components/form-sub-header';
 import FormSubmitErrorMessage from 'Components/form-submit-error-message';
 import LoadErrorMessage from 'Components/load-error-message';
-
-const getLocation = (location_list, value, type) => {
-    const location_obj = location_list.find(
-        (location) => location[type === 'text' ? 'value' : 'text'].toLowerCase() === value.toLowerCase()
-    );
-
-    if (location_obj) return location_obj[type];
-    return '';
-};
 
 const removeObjProperties = (property_arr, { ...obj }) => {
     property_arr.forEach((property) => delete obj[property]);
@@ -139,9 +130,12 @@ class PersonalDetailsForm extends React.Component {
             // 'account_opening_reason',
             'address_line_1',
             'address_city',
-            this.props.is_eu && 'tax_residence',
-            this.props.is_eu && 'tax_identification_number',
         ];
+        if (this.props.is_eu) {
+            const required_tax_fields = ['citizen', 'tax_residence', 'tax_identification_number'];
+            required_fields.push(...required_tax_fields);
+        }
+
         validateValues((val) => val, required_fields, localize('This field is required'));
         const only_alphabet_fields = ['first_name', 'last_name'];
         validateValues(validLetterSymbol, only_alphabet_fields, localize('Only alphabet is allowed'));
@@ -198,7 +192,10 @@ class PersonalDetailsForm extends React.Component {
         const permitted_characters = "- . ' # ; : ( ) , @ /";
         const address_validation_message = localize(
             'Only letters, numbers, space, and these special characters are allowed: {{ permitted_characters }}',
-            { permitted_characters }
+            {
+                permitted_characters,
+                interpolation: { escapeValue: false },
+            }
         );
 
         if (values.address_line_1 && !validAddress(values.address_line_1)) {
@@ -445,7 +442,11 @@ class PersonalDetailsForm extends React.Component {
                                                                 data-lpignore='true'
                                                                 autoComplete='new-password' // prevent chrome autocomplete
                                                                 type='text'
-                                                                label={localize('Citizenship*')}
+                                                                label={
+                                                                    this.props.is_eu
+                                                                        ? localize('Citizenship*')
+                                                                        : localize('Citizenship')
+                                                                }
                                                                 error={touched.citizen && errors.citizen}
                                                                 disabled={
                                                                     form_initial_values.citizen &&
@@ -455,7 +456,7 @@ class PersonalDetailsForm extends React.Component {
                                                                 onItemSelection={({ value, text }) =>
                                                                     setFieldValue('citizen', value ? text : '', true)
                                                                 }
-                                                                required
+                                                                required={this.props.is_eu}
                                                             />
                                                         )}
                                                     </Field>
@@ -464,8 +465,12 @@ class PersonalDetailsForm extends React.Component {
                                                     <MobileWrapper>
                                                         <SelectNative
                                                             placeholder={localize('Please select')}
-                                                            label={localize('Citizenship*')}
-                                                            required
+                                                            label={
+                                                                this.props.is_eu
+                                                                    ? localize('Citizenship*')
+                                                                    : localize('Citizenship')
+                                                            }
+                                                            required={this.props.is_eu}
                                                             disabled={
                                                                 form_initial_values.citizen && is_fully_authenticated
                                                             }

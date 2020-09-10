@@ -28,6 +28,7 @@ class SelectNative extends React.Component {
             error,
             hint,
             disabled,
+            should_show_empty_option = true,
             ...props
         } = this.props;
         return (
@@ -66,7 +67,7 @@ class SelectNative extends React.Component {
                                     {/* In native select, first option is selected by default.
                                         Added an empty option to avoid it from selecting first item
                                         from list_items provided */}
-                                    <option value=''>{placeholder}</option>
+                                    {should_show_empty_option && <option value=''>{placeholder}</option>}
                                     {/* Safari on ios allows to select a disabled option.
                                         So, we should avoid showing it */}
                                     {list_items
@@ -102,24 +103,27 @@ class SelectNative extends React.Component {
     }
 }
 
-const list_items_shape = PropTypes.arrayOf(
-    PropTypes.shape({
-        text: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-    })
-);
+const list_items_shape = PropTypes.oneOfType([
+    PropTypes.arrayOf(
+        PropTypes.shape({
+            disabled: PropTypes.bool,
+            nativepicker_text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+            text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        })
+    ),
+    PropTypes.object,
+    PropTypes.array,
+]);
 
 SelectNative.propTypes = {
     className: PropTypes.string,
     classNameDisplay: PropTypes.string,
-    list_items: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.string),
-        list_items_shape,
-        PropTypes.objectOf(list_items_shape),
-    ]),
+    list_items: list_items_shape,
     value: PropTypes.string,
     label: PropTypes.string,
     onChange: PropTypes.func,
+    should_show_empty_option: PropTypes.bool,
 };
 
 export default SelectNative;

@@ -15,7 +15,6 @@ class Account extends React.Component {
     // TODO: find better fix for no-op issue
     is_mounted = false;
     state = {
-        needs_financial_assessment: false,
         is_loading: true,
         allow_document_upload: false,
     };
@@ -25,21 +24,28 @@ class Account extends React.Component {
         WS.wait('authorize', 'get_account_status').then(() => {
             if (this.props.account_status) {
                 const { status } = this.props.account_status;
-                const needs_financial_assessment =
-                    this.props.is_high_risk ||
-                    this.props.is_financial_information_incomplete ||
-                    (this.props.is_financial_account && this.props.is_trading_experience_incomplete);
+
                 const allow_document_upload = status?.includes('allow_document_upload');
 
                 if (this.is_mounted)
                     this.setState({
-                        needs_financial_assessment,
                         is_loading: false,
                         allow_document_upload,
                     });
             }
         });
         this.props.toggleAccount(true);
+    }
+
+    componentDidUpdate(prevProps) {
+        // since account.jsx is rendered only once after initial load,
+        // we need to add this update once account_status changes
+        // TODO: Refactor account.jsx into functional component with hooks to eliminate need for componentDidUpdate
+        if (this.props.account_status !== prevProps.account_status) {
+            const allow_document_upload = this.props.account_status.status?.includes('allow_document_upload');
+
+            if (this.is_mounted) this.setState({ allow_document_upload });
+        }
     }
 
     componentWillUnmount() {
@@ -50,7 +56,8 @@ class Account extends React.Component {
     onClickClose = () => this.props.routeBackInApp(this.props.history);
 
     render() {
-        const { needs_financial_assessment, is_loading, allow_document_upload } = this.state;
+        const { is_loading, allow_document_upload } = this.state;
+        const { needs_financial_assessment } = this.props;
 
         const subroutes = flatten(this.props.routes.map((i) => i.subroutes));
         let list_groups = [...this.props.routes];
@@ -142,7 +149,6 @@ Account.propTypes = {
     account_status: PropTypes.object,
     currency: PropTypes.string,
     history: PropTypes.object,
-    is_high_risk: PropTypes.bool,
     is_virtual: PropTypes.bool,
     is_visible: PropTypes.bool,
     location: PropTypes.object,
@@ -154,11 +160,8 @@ export default connect(({ client, common, ui }) => ({
     routeBackInApp: common.routeBackInApp,
     account_status: client.account_status,
     currency: client.currency,
-    is_high_risk: client.is_high_risk,
     is_virtual: client.is_virtual,
     is_visible: ui.is_account_settings_visible,
-    is_financial_account: client.is_financial_account,
-    is_financial_information_incomplete: client.is_financial_information_incomplete,
-    is_trading_experience_incomplete: client.is_trading_experience_incomplete,
+    needs_financial_assessment: client.needs_financial_assessment,
     toggleAccount: ui.toggleAccountSettings,
 }))(withRouter(Account));
