@@ -87,7 +87,7 @@ const BuySellRow = ({ row: advert }) => {
                         </Text>
                     </div>
                     {!is_my_advert && (
-                        <Button primary large onClick={() => buy_sell_store.setSelectedAdvert(advert)}>
+                        <Button primary large onClick={() => window.open('https://staging-app.deriv.com/cashier/p2p')}>
                             {is_buy_advert ? (
                                 <Localize i18n_default_text='Buy {{account_currency}}' values={{ account_currency }} />
                             ) : (
