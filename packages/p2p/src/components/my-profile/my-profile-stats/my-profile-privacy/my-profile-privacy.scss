@@ -6,7 +6,8 @@
 
     @include mobile {
         justify-content: space-between;
-        margin-bottom: 1.4rem;
+        margin: 1.4rem 0;
+        padding: 0 1.6rem;
     }
 
     &__toggle {
@@ -21,6 +22,7 @@
 
             @include mobile {
                 align-items: unset;
+                margin: unset;
             }
         }
 
@@ -33,11 +35,23 @@
             &--active {
                 left: calc(100% - 4px) !important;
             }
+
+            @include mobile {
+                top: 3px;
+                width: 18px;
+                height: 18px;
+            }
         }
 
         margin-right: 1.6rem;
         width: 32px;
         height: 17px;
+
+        @include mobile {
+            width: 45px;
+            height: 24px;
+            margin-right: unset;
+        }
     }
 }
 

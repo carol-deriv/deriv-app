@@ -6,11 +6,17 @@
 
     @include mobile {
         border: unset;
-        padding: unset;
+        margin-bottom: 2.4rem;
+        margin-top: 1.6rem;
+        padding: 0 1.6rem;
     }
 
     &--table {
         display: flex;
         justify-content: space-between;
+
+        @include mobile {
+            display: unset;
+        }
     }
 }

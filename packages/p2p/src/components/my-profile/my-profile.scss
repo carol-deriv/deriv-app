@@ -1,8 +1,17 @@
 .my-profile {
     &__content {
         @include mobile {
-            padding: 1.6rem;
+            padding-top: 0;
             width: 100vw;
         }
+    }
+
+    &__navigation {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 2.3rem 0;
+        padding: 0 1.6rem;
     }
 }

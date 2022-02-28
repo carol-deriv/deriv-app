@@ -1,4 +1,8 @@
 .my-profile-balance {
+    @include mobile {
+        margin-bottom: 1.6rem;
+    }
+
     &__amount {
         margin-right: 0.8rem;
     }

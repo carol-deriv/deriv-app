@@ -5,11 +5,16 @@
     width: 100%;
 
     @include mobile {
+        align-items: flex-start;
         margin: 0 0 2.4rem;
     }
 
     &__avatar {
         margin-right: 0.8rem;
+
+        @include mobile {
+            margin-right: 1.6rem;
+        }
     }
 
     &--column {
@@ -18,7 +23,10 @@
     }
 
     &__name {
-        width: 100%;
+        width: 90%;
+        @include mobile {
+            width: unset;
+        }
     }
 
     &--privacy {
