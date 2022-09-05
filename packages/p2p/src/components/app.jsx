@@ -12,8 +12,19 @@ import './app.scss';
 
 const App = props => {
     const { general_store, order_store } = useStores();
-    const { balance, className, history, lang, Notifications, order_id, server_time, websocket_api, setOnRemount } =
-        props;
+    const {
+        balance,
+        className,
+        history,
+        lang,
+        Notifications,
+        order_id,
+        server_time,
+        verification_action,
+        verification_code,
+        websocket_api,
+        setOnRemount,
+    } = props;
 
     React.useEffect(() => {
         general_store.setAppProps(props);
@@ -67,6 +78,14 @@ const App = props => {
     React.useEffect(() => {
         setLanguage(lang);
     }, [lang]);
+
+    React.useEffect(() => {
+        if (verification_action && verification_code) {
+            order_store.setIsLoadingModalOpen(true);
+            order_store.verifyEmailVerificationCode(verification_action, verification_code);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [verification_action, verification_code]);
 
     return (
         <main className={classNames('p2p-cashier', className)}>
