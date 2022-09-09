@@ -1,19 +1,20 @@
 import React from 'react';
-import { DesktopWrapper, Loading, MobileWrapper, Text } from '@deriv/components';
+import { DesktopWrapper, Loading, Text } from '@deriv/components';
 import { daysSince, isMobile } from '@deriv/shared';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import PropTypes from 'prop-types';
-import PageReturn from 'Components/page-return/page-return.jsx';
+import { useStores } from 'Stores';
 import { Localize, localize } from 'Components/i18next';
 import { buy_sell } from 'Constants/buy-sell';
 import RateChangeModal from 'Components/buy-sell/rate-change-modal.jsx';
 import BuySellModal from 'Components/buy-sell/buy-sell-modal.jsx';
+import PageReturn from 'Components/page-return/page-return.jsx';
+import RecommendedBy from 'Components/recommended-by';
 import UserAvatar from 'Components/user/user-avatar/user-avatar.jsx';
-import { useStores } from 'Stores';
 import AdvertiserPageStats from './advertiser-page-stats.jsx';
 import AdvertiserPageAdverts from './advertiser-page-adverts.jsx';
 import AdvertiserPageDropdownMenu from './advertiser-page-dropdown-menu.jsx';
+import StarRating from 'Components/star-rating';
 import TradeBadge from '../trade-badge/trade-badge.jsx';
 import BlockUserOverlay from './block-user/block-user-overlay';
 import BlockUserModal from 'Components/block-user/block-user-modal';
@@ -32,8 +33,15 @@ const AdvertiserPage = () => {
         id,
         last_name,
         name,
+        rating_average,
+        rating_count,
+        recommended_average,
+        recommended_count,
         sell_orders_count,
     } = advertiser_page_store.advertiser_info;
+
+    // rating_average_decimal converts rating_average to 1 d.p number
+    const rating_average_decimal = rating_average ? Number(rating_average).toFixed(1) : null;
     const joined_since = daysSince(created_time);
     const is_my_advert = id === general_store.advertiser_id;
 
@@ -78,15 +86,121 @@ const AdvertiserPage = () => {
                 setShouldShowPopup={advertiser_page_store.setShowAdPopup}
                 table_type={advertiser_page_store.counterparty_type === buy_sell.BUY ? buy_sell.BUY : buy_sell.SELL}
             />
-            <div className='advertiser-page__page-return-header'>
-                <PageReturn
-                    className='buy-sell__advertiser-page-return'
-                    onClick={buy_sell_store.hideAdvertiserPage}
-                    page_title={localize("Advertiser's page")}
-                />
-                <MobileWrapper>
-                    <AdvertiserPageDropdownMenu is_my_advert={is_my_advert} />
-                </MobileWrapper>
+            <PageReturn
+                className='buy-sell__advertiser-page-return'
+                onClick={buy_sell_store.hideAdvertiserPage}
+                page_title={localize("Advertiser's page")}
+            />
+            <div className='advertiser-page-details-container'>
+                <div className='advertiser-page__header-details'>
+                    <UserAvatar
+                        nickname={advertiser_page_store.advertiser_details_name}
+                        size={isMobile() ? 32 : 64}
+                        text_size={isMobile() ? 's' : 'sm'}
+                    />
+                    <div className='advertiser-page__header-name--column'>
+                        <div className='advertiser-page__header-name'>
+                            <Text color='prominent' line-height='m' size='s' weight='bold'>
+                                {advertiser_page_store.advertiser_details_name}
+                            </Text>
+                            {first_name && last_name && (
+                                <div className='advertiser-page__header-real-name'>
+                                    <Text color='less-prominent' line_height='xs' size='xs'>
+                                        {`(${first_name} ${last_name})`}
+                                    </Text>
+                                </div>
+                            )}
+                        </div>
+                        <div className='advertiser-page__rating'>
+                            {rating_average ? (
+                                <React.Fragment>
+                                    <div className='advertiser-page__rating--row'>
+                                        <StarRating
+                                            empty_star_className='advertiser-page__rating--star'
+                                            empty_star_icon='IcEmptyStar'
+                                            full_star_className='advertiser-page__rating--star'
+                                            full_star_icon='IcFullStar'
+                                            initial_value={rating_average_decimal}
+                                            is_readonly
+                                            number_of_stars={5}
+                                            should_allow_hover_effect={false}
+                                            star_size={isMobile() ? 17 : 20}
+                                        />
+                                        <div className='advertiser-page__rating--text'>
+                                            <Text color='prominent' size={isMobile() ? 'xxxs' : 'xs'}>
+                                                {rating_average_decimal}
+                                            </Text>
+                                            <Text color='less-prominent' size={isMobile() ? 'xxxs' : 'xs'}>
+                                                {rating_count === 1 ? (
+                                                    <Localize
+                                                        i18n_default_text='({{number_of_ratings}} rating)'
+                                                        values={{ number_of_ratings: rating_count }}
+                                                    />
+                                                ) : (
+                                                    <Localize
+                                                        i18n_default_text='({{number_of_ratings}} ratings)'
+                                                        values={{ number_of_ratings: rating_count }}
+                                                    />
+                                                )}
+                                            </Text>
+                                        </div>
+                                    </div>
+                                    <div className='advertiser-page__rating--row'>
+                                        <RecommendedBy
+                                            recommended_average={recommended_average}
+                                            recommended_count={recommended_count}
+                                        />
+                                    </div>
+                                </React.Fragment>
+                            ) : (
+                                <div className='advertiser-page__rating--row'>
+                                    <Text color='less-prominent' size={isMobile() ? 'xxxs' : 'xs'}>
+                                        <Localize i18n_default_text='Not rated yet' />
+                                    </Text>
+                                </div>
+                            )}
+                            {!isMobile() && (
+                                <div className='advertiser-page__rating--row'>
+                                    <Text color='less-prominent' size={isMobile() ? 'xxxs' : 'xs'}>
+                                        {joined_since > 0 ? (
+                                            <Localize
+                                                i18n_default_text='Joined {{days_since_joined}}d'
+                                                values={{ days_since_joined: joined_since }}
+                                            />
+                                        ) : (
+                                            <Localize i18n_default_text='Joined today' />
+                                        )}
+                                    </Text>
+                                </div>
+                            )}
+                        </div>
+                        {isMobile() && (
+                            <Text
+                                className='advertiser-page__joined-since'
+                                color='less-prominent'
+                                size={isMobile() ? 'xxxs' : 'xs'}
+                            >
+                                {joined_since > 0 ? (
+                                    <Localize
+                                        i18n_default_text='Joined {{days_since_joined}}d'
+                                        values={{ days_since_joined: joined_since }}
+                                    />
+                                ) : (
+                                    <Localize i18n_default_text='Joined today' />
+                                )}
+                            </Text>
+                        )}
+                        <div className='advertiser-page__row'>
+                            <TradeBadge
+                                is_poa_verified={!!full_verification}
+                                is_poi_verified={!!basic_verification}
+                                trade_count={Number(buy_orders_count) + Number(sell_orders_count)}
+                                large
+                            />
+                        </div>
+                    </div>
+                </div>
+                <AdvertiserPageStats />
             </div>
             <BlockUserOverlay
                 is_visible={!!advertiser_page_store.is_counterparty_advertiser_blocked}
@@ -141,33 +255,6 @@ const AdvertiserPage = () => {
             </BlockUserOverlay>
         </div>
     );
-};
-
-AdvertiserPage.propTypes = {
-    active_index: PropTypes.number,
-    advert: PropTypes.object,
-    advertiser_info: PropTypes.object,
-    adverts: PropTypes.array,
-    api_error_message: PropTypes.string,
-    counterparty_type: PropTypes.string,
-    error_message: PropTypes.string,
-    form_error_message: PropTypes.string,
-    handleTabItemClick: PropTypes.func,
-    height_values: PropTypes.array,
-    is_loading: PropTypes.bool,
-    is_submit_disabled: PropTypes.bool,
-    item_height: PropTypes.number,
-    modal_title: PropTypes.string,
-    onCancelClick: PropTypes.func,
-    onConfirmClick: PropTypes.func,
-    onMount: PropTypes.func,
-    onTabChange: PropTypes.func,
-    setFormErrorMessage: PropTypes.func,
-    setIsSubmitDisabled: PropTypes.func,
-    setSubmitForm: PropTypes.func,
-    show_ad_popup: PropTypes.bool,
-    showAdPopup: PropTypes.func,
-    submitForm: PropTypes.func,
 };
 
 export default observer(AdvertiserPage);
