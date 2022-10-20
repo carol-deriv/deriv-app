@@ -7,7 +7,7 @@ import AdvertiserPage from 'Components/advertiser-page/advertiser-page.jsx';
 import BuySell from 'Components/buy-sell/buy-sell.jsx';
 import Dp2pBlocked from 'Components/dp2p-blocked';
 import { localize } from 'Components/i18next';
-import MyAds from 'Components/my-ads/my-ads.jsx';
+import MyAds from 'Pages/my-ads';
 import MyProfile from 'Components/my-profile';
 import NicknameForm from 'Components/nickname-form';
 import Orders from 'Components/orders/orders.jsx';

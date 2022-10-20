@@ -12,7 +12,7 @@ import { buy_sell } from 'Constants/buy-sell';
 import { useStores } from 'Stores';
 import { ad_type } from 'Constants/floating-rate';
 import FloatingRate from 'Components/floating-rate';
-import EditAdCancelModal from 'Components/my-ads/edit-ad-cancel-modal.jsx';
+import EditAdCancelModal from './edit-ad-cancel-modal.jsx';
 import { generateErrorDialogTitle, generateErrorDialogBody } from 'Utils/adverts';
 import EditAdFormPaymentMethods from './edit-ad-form-payment-methods.jsx';
 import CreateAdAddPaymentMethodModal from './create-ad-add-payment-method-modal.jsx';

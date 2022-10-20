@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { Localize, localize } from 'Components/i18next';
 import { buy_sell } from 'Constants/buy-sell';
 import { ad_type } from 'Constants/floating-rate';
-import AdStatus from 'Components/my-ads/ad-status.jsx';
+import AdStatus from './ad-status.jsx';
 import { useStores } from 'Stores';
 import { generateEffectiveRate } from 'Utils/format-value';
 import AdType from './ad-type.jsx';
