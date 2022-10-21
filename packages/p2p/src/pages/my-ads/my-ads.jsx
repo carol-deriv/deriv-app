@@ -7,7 +7,7 @@ import { useStores } from 'Stores';
 import { TableError } from 'Components/table/table-error.jsx';
 import CreateAd from './create-ad';
 import EditAd from './edit-ad';
-import MyAdsTable from './my-ads-table.jsx';
+import MyAdsTable from './my-ads-table';
 import Verification from 'Components/verification/verification.jsx';
 import './my-ads.scss';
 

@@ -5,14 +5,14 @@ import { isDesktop, isMobile } from '@deriv/shared';
 import { observer } from 'mobx-react-lite';
 import { localize, Localize } from 'Components/i18next';
 import Empty from 'Components/empty/empty.jsx';
-import ToggleAds from './toggle-ads.jsx';
+import ToggleAds from '../toggle-ads';
 import { TableError } from 'Components/table/table-error.jsx';
 import { ad_type } from 'Constants/floating-rate';
 import { useStores } from 'Stores';
 import { generateErrorDialogTitle } from 'Utils/adverts';
 import MyAdsDeleteModal from 'Components/my-ads/my-ads-delete-modal.jsx';
 import MyAdsFloatingRateSwitchModal from 'Components/my-ads/my-ads-floating-rate-switch-modal.jsx';
-import MyAdsRowRenderer from './my-ads-row-renderer.jsx';
+import MyAdsRowRenderer from './my-ads-row-renderer';
 import QuickAddModal from 'Components/my-ads/quick-add-modal.jsx';
 import AdExceedsDailyLimitModal from 'Components/my-ads/ad-exceeds-daily-limit-modal.jsx';
 
