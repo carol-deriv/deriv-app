@@ -20,9 +20,9 @@ import { Localize, localize } from 'Components/i18next';
 import { buy_sell } from 'Constants/buy-sell';
 import { ad_type } from 'Constants/floating-rate';
 import { useStores } from 'Stores';
-import CreateAdSummary from '../create-ad-summary/create-ad-summary.jsx';
+import CreateAdSummary from '../create-ad-summary';
 import CreateAdErrorModal from 'Components/my-ads/create-ad-error-modal.jsx';
-import CreateAdFormPaymentMethods from '../create-ad-form-payment-methods/create-ad-form-payment-methods.jsx';
+import CreateAdFormPaymentMethods from '../create-ad-form-payment-methods';
 import CreateAdAddPaymentMethodModal from 'Components/my-ads/create-ad-add-payment-method-modal.jsx';
 
 const CreateAdFormWrapper = ({ children }) => {
