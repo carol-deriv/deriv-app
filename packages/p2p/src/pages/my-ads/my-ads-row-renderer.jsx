@@ -7,10 +7,10 @@ import { observer } from 'mobx-react-lite';
 import { Localize, localize } from 'Components/i18next';
 import { buy_sell } from 'Constants/buy-sell';
 import { ad_type } from 'Constants/floating-rate';
-import AdStatus from './ad-status.jsx';
+import AdStatus from './ad-status/ad-status.jsx';
 import { useStores } from 'Stores';
 import { generateEffectiveRate } from 'Utils/format-value';
-import AdType from './ad-type.jsx';
+import AdType from './ad-type/ad-type.jsx';
 
 const MyAdsRowRenderer = observer(({ row: advert, setAdvert }) => {
     const { floating_rate_store, general_store, my_ads_store, my_profile_store } = useStores();
