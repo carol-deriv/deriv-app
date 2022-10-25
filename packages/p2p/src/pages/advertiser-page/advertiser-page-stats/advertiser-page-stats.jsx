@@ -4,7 +4,7 @@ import { isMobile } from '@deriv/shared';
 import { observer } from 'mobx-react-lite';
 import { localize, Localize } from 'Components/i18next';
 import { useStores } from 'Stores';
-import './advertiser-page.scss';
+import '../advertiser-page.scss';
 
 const AdvertiserPageStats = () => {
     const { advertiser_page_store, general_store } = useStores();

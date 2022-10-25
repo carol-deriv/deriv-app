@@ -3,8 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { Dropdown, Icon, Text } from '@deriv/components';
 import { Localize } from 'Components/i18next';
 import { useStores } from 'Stores';
-import { useOnClickOutside } from '../../../../components/src/hooks';
-import './advertiser-page.scss';
+import { useOnClickOutside } from '@deriv/components/src/hooks';
+import '../advertiser-page.scss';
 
 const AdvertiserPageDropdownMenu = () => {
     const dropdown_menu_ref = React.useRef();
