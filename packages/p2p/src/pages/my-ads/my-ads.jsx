@@ -5,10 +5,10 @@ import { observer } from 'mobx-react-lite';
 import { localize } from 'Components/i18next';
 import { useStores } from 'Stores';
 import { TableError } from 'Components/table/table-error.jsx';
-import CreateAd from './create-ad.jsx';
-import EditAd from './edit-ad.jsx';
-import MyAdsTable from './my-ads-table.jsx';
-import Verification from '../verification/verification.jsx';
+import CreateAd from './create-ad';
+import EditAd from './edit-ad';
+import MyAdsTable from './my-ads-table';
+import Verification from 'Components/verification/verification.jsx';
 import './my-ads.scss';
 
 const MyAdsState = ({ message }) => (

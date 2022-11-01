@@ -21,7 +21,7 @@ jest.mock('@deriv/components', () => ({
 jest.mock('Components/dp2p-blocked', () => jest.fn(() => 'Dp2pBlocked'));
 jest.mock('Components/nickname-form', () => jest.fn(() => 'NicknameForm'));
 jest.mock('Components/verification/verification', () => jest.fn(() => 'Verification'));
-jest.mock('Components/my-ads/my-ads', () => jest.fn(() => 'MyAds'));
+jest.mock('Pages/my-ads', () => jest.fn(() => 'MyAds'));
 jest.mock('Components/orders/orders', () => jest.fn(() => 'Orders'));
 jest.mock('Components/buy-sell/buy-sell', () => jest.fn(() => 'BuySell'));
 jest.mock('Components/my-profile', () => jest.fn(() => 'MyProfile'));

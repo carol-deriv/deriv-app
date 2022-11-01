@@ -7,8 +7,8 @@ import { observer } from 'mobx-react-lite';
 import { localize, Localize } from 'Components/i18next';
 import { buy_sell } from 'Constants/buy-sell';
 import { useStores } from 'Stores';
-import AddPaymentMethod from '../my-profile/payment-methods/add-payment-method/add-payment-method.jsx';
-import SellAdPaymentMethodsList from './sell-ad-payment-methods-list.jsx';
+import AddPaymentMethod from 'Components/my-profile/payment-methods/add-payment-method/add-payment-method.jsx';
+import SellAdPaymentMethodsList from 'Pages/my-ads/sell-ad-payment-methods-list';
 import './quick-add-modal.scss';
 
 const QuickAddModal = ({ advert }) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Loading } from '@deriv/components';
 import { observer } from 'mobx-react-lite';
 import { useStores } from 'Stores';
-import EditAdForm from './edit-ad-form.jsx';
+import EditAdForm from './edit-ad-form';
 
 const EditAd = () => {
     const { my_ads_store } = useStores();
