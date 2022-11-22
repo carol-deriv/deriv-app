@@ -7,7 +7,7 @@ import { useStores } from 'Stores';
 import { buy_sell } from 'Constants/buy-sell';
 import { localize, Localize } from 'Components/i18next';
 import { generateEffectiveRate } from 'Utils/format-value';
-import './advertiser-page.scss';
+import 'Pages/advertiser-page/advertiser-page.scss';
 
 const AdvertiserPageRow = ({ row: advert, showAdPopup }) => {
     const { advertiser_page_store, buy_sell_store, floating_rate_store, general_store } = useStores();

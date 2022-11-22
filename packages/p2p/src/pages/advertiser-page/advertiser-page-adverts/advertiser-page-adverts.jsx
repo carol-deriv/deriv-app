@@ -6,8 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { localize, Localize } from 'Components/i18next';
 import { useStores } from 'Stores';
 import Empty from 'Components/empty/empty.jsx';
-import AdvertiserPageRow from './advertiser-page-row.jsx';
-import './advertiser-page.scss';
+import AdvertiserPageRow from './advertiser-page-row';
+import '../advertiser-page.scss';
 
 const AdvertiserPageAdverts = () => {
     const { advertiser_page_store, general_store } = useStores();
